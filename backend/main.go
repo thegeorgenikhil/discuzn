@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/http"
+
 	log "github.com/sirupsen/logrus"
 
 	appLogger "github.com/discuzn/backend/logger"
@@ -18,6 +20,10 @@ func main() {
 	app := fiber.New()
 	app.Use(logger.New())
 	app.Use(cors.New())
+
+	app.Get("/health", func(c *fiber.Ctx) error {
+		return c.Status(http.StatusOK).SendString("ok")
+	})
 
 	appLogger.InitLogger()
 
